@@ -34,7 +34,7 @@ function parseIssueBody(githubFormData, body) {
       entry = entry.split(" ").map(name => {
         return name.trim().replace(/\,/g, "");
       }).filter(name => !!name).map(name => {
-        return name.startsWith("@") ? name : `@${name}`;
+        return name.startsWith("@") ? name.substring(1) : name;
       });
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "@zachleat/issue-to-json",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": " Convert a well formed GitHub Issue Form populated Markdown body into a JSON data file in the repository.",
   "type": "module",
   "main": "issue-to-json.js",

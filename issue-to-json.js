@@ -72,7 +72,7 @@ export async function issueToJson() {
     }
 
     const issueTemplateFile = getInput("issue-template");
-    const issueTemplate = await readFile(path.join("./github/ISSUE_TEMPLATE/", issueTemplateFile), "utf8");
+    const issueTemplate = await readFile(path.join("./.github/ISSUE_TEMPLATE/", issueTemplateFile), "utf8");
     // const issueTemplate = await readFile("./test/sample-issue-template.yml");
 
     const { title, number, body } = github.context.payload.issue;

@@ -44,7 +44,7 @@ async function parseIssueBody(githubFormData, body) {
     }
 
     if(fieldLabel && fieldLabel.toLowerCase() === "url" || fields[j].id === "url" || fields[j].id.endsWith("_url") || fields[j].id.startsWith("url_")) {
-      console.log( "About to cleanup URL: ", entry );
+      console.log( "About to cleanup URL: ", { entry } );
       entry = await cleanupUrl(entry);
     }
 

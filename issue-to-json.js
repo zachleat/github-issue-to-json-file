@@ -14,6 +14,10 @@ function getFileName(url) {
 function parseIssueBody(body) {
   let [urlTitle, url, sourceTitle, source_url, authorsTitle, authors] = body.split("\n").filter(entry => !!entry);
 
+  if(source_url === "_No response_") {
+    source_url = "";
+  }
+
   if(authors === "_No response_") {
     authors = "";
   }
@@ -67,8 +71,6 @@ export async function issueToJson() {
     }
 
     const issueData = parseIssueBody(body);
-
-    issueData.githubIssueNumber = number;
 
     exportVariable("IssueNumber", number);
 

@@ -56,6 +56,13 @@ async function parseIssueBody(githubFormData, body) {
       entry = await cleanupUrl(entry);
     }
 
+    // Only supports a single checkbox (for now)
+    if(fields[j].type === "checkboxes") {
+      entry = removeNewLines(entry);
+      // Convert to Boolean
+      entry = entry.startsWith("- [X]");
+    }
+
     returnObject[fields[j].id] = entry;
   }
 

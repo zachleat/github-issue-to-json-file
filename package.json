@@ -14,6 +14,7 @@
     "@actions/core": "^1.6.0",
     "@actions/github": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "normalize-url": "^7.0.3"
+    "normalize-url": "^7.0.3",
+    "redirect-chain": "^1.0.1"
   }
 }

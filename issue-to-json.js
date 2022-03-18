@@ -6,6 +6,9 @@ import { getInput, exportVariable, setFailed } from "@actions/core";
 import * as github from "@actions/github";
 import yaml from "js-yaml";
 import normalizeUrl from "normalize-url";
+import redirectChain from "redirect-chain";
+
+const getRedirects = redirectChain({ maxRedirects: 5 });
 
 function getFileName(url) {
   let hash = createHash("sha256");
@@ -43,9 +46,13 @@ function parseIssueBody(githubFormData, body) {
       });
     }
     if(fieldLabel && fieldLabel.toLowerCase() === "url" || fields[j].id === "url" || fields[j].id.endsWith("_url") || fields[j].id.startsWith("url_")) {
-      entry = normalizeUrl(entry, {
-        defaultProtocol: "https:"
+      let normalized = normalizeUrl(entry, {
+        defaultProtocol: "http:"
       });
+
+      let urls = await getRedirects(normalized);
+
+      entry = urls.pop();
     }
 
     returnObject[fields[j].id] = entry;

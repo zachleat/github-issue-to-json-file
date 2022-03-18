@@ -1,8 +1,8 @@
 {
   "name": "@zachleat/issue-to-json",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": " Convert a well formed GitHub Issue Form populated Markdown body into a JSON data file in the repository.",
+  "main": "issue-to-json.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

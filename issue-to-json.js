@@ -42,7 +42,7 @@ async function parseIssueBody(githubFormData, body) {
     let entry = bodyData[j];
     // Clean up GitHub usernames
     let fieldLabel = fields[j] && fields[j].attributes && fields[j].attributes.label;
-    if(fieldLabel && (fieldLabel.toLowerCase().endsWith("(gitHub usernames)") || fieldLabel.toLowerCase().endsWith("(twitter usernames)"))) {
+    if(fieldLabel && (fieldLabel.toLowerCase().endsWith("(github usernames)") || fieldLabel.toLowerCase().endsWith("(twitter usernames)"))) {
       entry = entry.split(" ").map(name => {
         return removeNewLines(name).trim().replace(/\,/g, "");
       }).filter(name => !!name).map(name => {

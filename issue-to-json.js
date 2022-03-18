@@ -5,8 +5,7 @@ import path from "node:path";
 import { getInput, exportVariable, setFailed } from "@actions/core";
 import * as github from "@actions/github";
 import yaml from "js-yaml";
-import normalizeUrl from "normalize-url";
-import followRedirects from "follow-url-redirects";
+import { cleanupUrl } from "./cleanup-url.js";
 
 function getFileName(url) {
   let hash = createHash("sha256");
@@ -44,16 +43,7 @@ async function parseIssueBody(githubFormData, body) {
       });
     }
     if(fieldLabel && fieldLabel.toLowerCase() === "url" || fields[j].id === "url" || fields[j].id.endsWith("_url") || fields[j].id.startsWith("url_")) {
-      let normalized = normalizeUrl(entry, {
-        defaultProtocol: "http:"
-      });
-
-      let urls = await followRedirects(normalized, {
-        timeout: 5000,
-        maxRedirects: 5,
-      });
-
-      entry = (urls.pop()).url;
+      entry = cleanupUrl(entry);
     }
 
     returnObject[fields[j].id] = entry;

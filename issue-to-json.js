@@ -46,6 +46,9 @@ function parseIssueBody(githubFormData, body) {
 
 function getTestData() {
   return {
+    user: {
+      login: "zachleat",
+    },
     number: 1,
     title: "I built something",
     body: `### Site URL
@@ -75,8 +78,8 @@ export async function issueToJson() {
     const issueTemplate = await readFile(path.join("./.github/ISSUE_TEMPLATE/", issueTemplateFile), "utf8");
     // const issueTemplate = await readFile("./test/sample-issue-template.yml");
 
-    const { title, number, body } = github.context.payload.issue;
-    // const { title, number, body } = getTestData();
+    const { title, number, body, user } = github.context.payload.issue;
+    // const { title, number, body, user } = getTestData();
 
     const formData = yaml.load(issueTemplate);
 
@@ -85,6 +88,8 @@ export async function issueToJson() {
     }
 
     const issueData = parseIssueBody(formData, body);
+
+    issueData.opened_by = user.login;
 
     exportVariable("IssueNumber", number);
 

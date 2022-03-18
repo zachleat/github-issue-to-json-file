@@ -11,7 +11,12 @@ Note this template creates new issues with the `built-with-eleventy` label. This
 
 * Sample [`.github/workflows/issue-to-data-file.yml` on the `11ty-community` Repo](https://github.com/11ty/11ty-community/blob/main/.github/workflows/issue-to-data-file.yml)
 
-Check out the comments below to see the customization options
+Check out the comments below to see the customization options:
+
+* Runs on: Issue opened, Issue edited, Issue reopened
+* Control the output folder for the JSON files
+* Control which GitHub Issue Form template you want to generate data from
+* Use a value from the input to generate a hash for the data’s file name.
 
 ```yml
 name: Convert Issues to JSON Data Files

@@ -13,8 +13,8 @@
   "dependencies": {
     "@actions/core": "^1.6.0",
     "@actions/github": "^5.0.0",
+    "follow-url-redirects": "^1.1.0",
     "js-yaml": "^4.1.0",
-    "normalize-url": "^7.0.3",
-    "redirect-chain": "^1.0.1"
+    "normalize-url": "^7.0.3"
   }
 }

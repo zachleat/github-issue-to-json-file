@@ -6,9 +6,7 @@ import { getInput, exportVariable, setFailed } from "@actions/core";
 import * as github from "@actions/github";
 import yaml from "js-yaml";
 import normalizeUrl from "normalize-url";
-import redirectChain from "redirect-chain";
-
-const getRedirects = redirectChain({ maxRedirects: 5 });
+import followRedirects from "follow-url-redirects";
 
 function getFileName(url) {
   let hash = createHash("sha256");
@@ -50,9 +48,12 @@ async function parseIssueBody(githubFormData, body) {
         defaultProtocol: "http:"
       });
 
-      let urls = await getRedirects(normalized);
+      let urls = await followRedirects(normalized, {
+        timeout: 5000,
+        maxRedirects: 5,
+      });
 
-      entry = urls.pop();
+      entry = (urls.pop()).url;
     }
 
     returnObject[fields[j].id] = entry;

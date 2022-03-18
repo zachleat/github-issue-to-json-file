@@ -8,22 +8,10 @@ function getFileName(url) {
   let hash = createHash("sha256");
   hash.update(url);
 
-  return hash.digest("base64url").substr(0, 10);
+  return hash.digest("base64url").substr(0, 10) + ".json";
 }
 
 function parseIssueBody(body) {
-//   body = `### Site URL
-
-// https://www.zachleat.com/
-
-// ### Source code URL
-
-// https://github.com/zachleat/zachleat.com
-
-// ### Authors (GitHub usernames)
-
-// _No response_`;
-
   let [urlTitle, url, sourceTitle, source_url, authorsTitle, authors] = body.split("\n").filter(entry => !!entry);
 
   if(authors === "_No response_") {
@@ -43,6 +31,25 @@ function parseIssueBody(body) {
   }
 }
 
+function getTestData() {
+      
+  return {
+    number: 1,
+    title: "I built something",
+    body: `### Site URL
+
+https://www.zachleat.com/
+
+### Source code URL
+
+https://github.com/zachleat/zachleat.com
+
+### Authors (GitHub usernames)
+
+_No response_`,
+  };
+}
+
 export async function issueToJson() {
   try {
     const outputDir = getInput("dataFolderPath");
@@ -53,6 +60,7 @@ export async function issueToJson() {
     }
 
     const { title, number, body } = github.context.payload.issue;
+    // const { title, number, body } = getTestData();
 
     if (!title || !body) {
       throw new Error("Unable to parse GitHub issue.");

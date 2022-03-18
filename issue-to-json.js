@@ -7,6 +7,10 @@ import * as github from "@actions/github";
 import yaml from "js-yaml";
 import { cleanupUrl } from "./cleanup-url.js";
 
+function removeNewLines(str) {
+  return str.replace(/[\r\n]*/g, "");
+}
+
 function getFileName(url) {
   let hash = createHash("sha256");
   hash.update(url);
@@ -18,9 +22,11 @@ async function parseIssueBody(githubFormData, body) {
   // Markdown fields aren’t included in output body
   let fields = githubFormData.body.filter(field => field.type !== "markdown");
 
+  // Warning: this will likely not handle new lines in a textarea field
   let bodyData = body.split("\n").filter(entry => {
     return !!entry && !entry.startsWith("###")
   }).map(entry => {
+    let entry = removeNewLines(entry);
     return entry === "_No response_" ? "" : entry;
   });
 

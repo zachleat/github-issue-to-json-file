@@ -5,6 +5,9 @@ runs:
   main: issue-to-json.js
 
 inputs:
-  dataFolderPath:
+  folder:
     description: The target output directory for the JSON data file.
     default: _data/
+  issue-template:
+    description: The YAML file for the GitHub issue form template
+    required: true

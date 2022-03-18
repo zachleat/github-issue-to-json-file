@@ -2,13 +2,14 @@
 
 ## Step 1: Create a [GitHub Issue Form template](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms) for your repository.
 
-Sample on the [`11ty-community` Repo](https://github.com/11ty/11ty-community/blob/main/.github/ISSUE_TEMPLATE/built-with-eleventy.yml) with a [Live Demo](https://github.com/11ty/11ty-community/issues/new?assignees=&labels=built-with-eleventy&template=built-with-eleventy.yml&title=%5BBuilt+with+Eleventy%5D+I+built+something%21)
+* Sample [`.github/ISSUE_TEMPLATE/built-with-eleventy.yml` on the `11ty-community` Repo](https://github.com/11ty/11ty-community/blob/main/.github/ISSUE_TEMPLATE/built-with-eleventy.yml)
+* [Live Demo](https://github.com/11ty/11ty-community/issues/new?assignees=&labels=built-with-eleventy&template=built-with-eleventy.yml&title=%5BBuilt+with+Eleventy%5D+I+built+something%21)
 
 Note this template creates new issues with the `built-with-eleventy` label. This will be used later.
 
 ## Step 2: Add the GitHub Actions Workflow file
 
-* Sample on the [`11ty-community` Repo](https://github.com/11ty/11ty-community/blob/main/.github/workflows/issue-to-data-file.yml)
+* Sample [`.github/workflows/issue-to-data-file.yml` on the `11ty-community` Repo](https://github.com/11ty/11ty-community/blob/main/.github/workflows/issue-to-data-file.yml)
 
 Check out the comments below to see the customization options
 

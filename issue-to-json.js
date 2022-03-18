@@ -13,7 +13,8 @@ function getFileName(url) {
 }
 
 function parseIssueBody(githubFormData, body) {
-  let fields = githubFormData.body;
+  // Markdown fields aren’t included in output body
+  let fields = githubFormData.body.filter(field => field.type !== "markdown");
 
   let bodyData = body.split("\n").filter(entry => {
     return !!entry && !entry.startsWith("###")

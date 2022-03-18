@@ -1,9 +1,11 @@
+import { writeFile, mkdir, readFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import path from "node:path";
+
 import { getInput, exportVariable, setFailed } from "@actions/core";
 import * as github from "@actions/github";
-import { writeFile, mkdir, readFile } from "fs/promises";
-import { createHash } from "crypto";
 import yaml from "js-yaml";
-import path from "node:path";
+import normalizeUrl from "normalize-url";
 
 function getFileName(url) {
   let hash = createHash("sha256");
@@ -22,7 +24,8 @@ function parseIssueBody(githubFormData, body) {
     return entry === "_No response_" ? "" : entry;
   });
 
-  console.log( {fields, bodyData} );
+  // console.log( {fields, bodyData} );
+
   let returnObject = {};
   for(let j = 0, k = bodyData.length; j<k; j++) {
     if(!fields[j]) {
@@ -31,16 +34,23 @@ function parseIssueBody(githubFormData, body) {
 
     let entry = bodyData[j];
     // Clean up GitHub usernames
-    if(fields[j] && fields[j].attributes && fields[j].attributes.label && fields[j].attributes.label.endsWith("(GitHub usernames)")) {
+    let fieldLabel = fields[j] && fields[j].attributes && fields[j].attributes.label;
+    if(fieldLabel && (fieldLabel.toLowerCase().endsWith("(gitHub usernames)") || fieldLabel.toLowerCase().endsWith("(twitter usernames)"))) {
       entry = entry.split(" ").map(name => {
         return name.trim().replace(/\,/g, "");
       }).filter(name => !!name).map(name => {
         return name.startsWith("@") ? name.substring(1) : name;
       });
     }
+    if(fieldLabel && fieldLabel.toLowerCase() === "url" || fields[j].id === "url" || fields[j].id.endsWith("_url") || fields[j].id.startsWith("url_")) {
+      entry = normalizeUrl(entry, {
+        defaultProtocol: "https:"
+      });
+    }
 
     returnObject[fields[j].id] = entry;
   }
+
   console.log( { returnObject } );
   return returnObject;
 }

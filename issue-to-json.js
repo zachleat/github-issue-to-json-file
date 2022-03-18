@@ -22,11 +22,12 @@ async function parseIssueBody(githubFormData, body) {
   // Markdown fields aren’t included in output body
   let fields = githubFormData.body.filter(field => field.type !== "markdown");
 
-  // Warning: this will likely not handle new lines in a textarea field
+  // Warning: this will likely not handle new lines in a textarea field input
   let bodyData = body.split("\n").filter(entry => {
     return !!entry && !entry.startsWith("###")
   }).map(entry => {
-    let entry = removeNewLines(entry);
+    entry = entry.trim();
+
     return entry === "_No response_" ? "" : entry;
   });
 
@@ -43,13 +44,14 @@ async function parseIssueBody(githubFormData, body) {
     let fieldLabel = fields[j] && fields[j].attributes && fields[j].attributes.label;
     if(fieldLabel && (fieldLabel.toLowerCase().endsWith("(gitHub usernames)") || fieldLabel.toLowerCase().endsWith("(twitter usernames)"))) {
       entry = entry.split(" ").map(name => {
-        return name.trim().replace(/\,/g, "");
+        return removeNewLines(name).trim().replace(/\,/g, "");
       }).filter(name => !!name).map(name => {
         return name.startsWith("@") ? name.substring(1) : name;
       });
     }
 
     if(fieldLabel && fieldLabel.toLowerCase() === "url" || fields[j].id === "url" || fields[j].id.endsWith("_url") || fields[j].id.startsWith("url_")) {
+      entry = removeNewLines(entry);
       console.log( "About to cleanup URL: ", { entry } );
       entry = await cleanupUrl(entry);
     }

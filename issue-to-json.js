@@ -1,6 +1,6 @@
 import { getInput, exportVariable, setFailed } from "@actions/core";
 import * as github from "@actions/github";
-import { writeFile } from "fs/promises";
+import { writeFile, mkdir } from "fs/promises";
 import { createHash } from "crypto";
 import path from "node:path";
 
@@ -71,6 +71,9 @@ export async function issueToJson() {
     issueData.githubIssueNumber = number;
 
     exportVariable("IssueNumber", number);
+
+    // create output dir
+    await mkdir(outputDir, { recursive: true });
 
     let fileName = getFileName(issueData.url);
     await writeFile(path.join(outputDir, fileName), JSON.stringify(issueData, null, 2));

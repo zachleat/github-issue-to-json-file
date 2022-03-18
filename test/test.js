@@ -25,3 +25,9 @@ test("Test both together url lib", async t => {
 
   t.is(normalized, "https://www.11ty.dev/");
 });
+
+test("Test normalize empty URL", async t => {
+  let normalized = await cleanupUrl("");
+
+  t.is(normalized, "");
+});

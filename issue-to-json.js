@@ -69,26 +69,26 @@ https://github.com/zachleat/zachleat.com
 export async function issueToJson() {
   try {
     const outputDir = getInput("folder");
-    
+
     if (!github.context.payload.issue) {
       setFailed("Cannot find GitHub issue");
       return;
     }
 
-    const issueTemplateFile = getInput("issue-template");
-    const issueTemplate = await readFile(path.join("./.github/ISSUE_TEMPLATE/", issueTemplateFile), "utf8");
-    // const issueTemplate = await readFile("./test/sample-issue-template.yml");
+    let issueTemplateFile = getInput("issue-template");
+    let issueTemplate = await readFile(path.join("./.github/ISSUE_TEMPLATE/", issueTemplateFile), "utf8");
+    // let issueTemplate = await readFile("./test/sample-issue-template.yml");
 
-    const { title, number, body, user } = github.context.payload.issue;
-    // const { title, number, body, user } = getTestData();
+    let { title, number, body, user } = github.context.payload.issue;
+    // let { title, number, body, user } = getTestData();
 
-    const formData = yaml.load(issueTemplate);
+    let formData = yaml.load(issueTemplate);
 
     if (!title || !body) {
       throw new Error("Unable to parse GitHub issue.");
     }
 
-    const issueData = parseIssueBody(formData, body);
+    let issueData = parseIssueBody(formData, body);
 
     issueData.opened_by = user.login;
 
@@ -96,8 +96,9 @@ export async function issueToJson() {
 
     // create output dir
     await mkdir(outputDir, { recursive: true });
-
-    let fileName = getFileName(issueData.url);
+    
+    let hashPropertyName = getInput("hash-property-name");
+    let fileName = getFileName(issueData[ hashPropertyName ]); // usually .url
     await writeFile(path.join(outputDir, fileName), JSON.stringify(issueData, null, 2));
   } catch (error) {
     setFailed(error.message);

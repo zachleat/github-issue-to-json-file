@@ -1,0 +1,10 @@
+name: GitHub Issue to JSON
+description: Convert GitHub issues to JSON data files.
+runs:
+  using: node16
+  main: issue-to-json.js
+
+inputs:
+  dataFolderPath:
+    description: The target output directory for the JSON data file.
+    default: _data/

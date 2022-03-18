@@ -17,7 +17,7 @@ function getFileName(url) {
   return hash.digest("base64url").substr(0, 10) + ".json";
 }
 
-function parseIssueBody(githubFormData, body) {
+async function parseIssueBody(githubFormData, body) {
   // Markdown fields aren’t included in output body
   let fields = githubFormData.body.filter(field => field.type !== "markdown");
 
@@ -105,7 +105,7 @@ export async function issueToJson() {
       throw new Error("Unable to parse GitHub issue.");
     }
 
-    let issueData = parseIssueBody(formData, body);
+    let issueData = await parseIssueBody(formData, body);
 
     issueData.opened_by = user.login;
 

@@ -19,7 +19,7 @@ Check out the comments below to see the customization options:
 * Use a value from the input to generate a hash for the data’s file name.
 
 ```yml
-name: Convert Issues to JSON Data Files
+name: Convert Issues to JSON Data
 
 on:
   issues:
@@ -28,18 +28,20 @@ on:
       - opened
       - edited
       - reopened
+      - labeled
 
 jobs:
   update_library:
     runs-on: ubuntu-latest
     name: Convert New built-with-eleventy Issue to Sites Data
-    # Only continue if issue has "built-with-eleventy" label
-    if: contains( github.event.issue.labels.*.name, 'built-with-eleventy')
+    # only continue if issue has "built-with-eleventy" label
+    # require an `approved` label for moderation
+    if: contains( github.event.issue.labels.*.name, 'built-with-eleventy') && contains( github.event.issue.labels.*.name, 'approved')
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: GitHub Issue to JSON
-        uses: zachleat/github-issue-to-json-file@v3.0.13
+        uses: zachleat/github-issue-to-json-file@v3.0.14
         with:
           # This controls where the JSON files are generated
           folder: "built-with-eleventy/"

@@ -11,6 +11,17 @@ body:
       placeholder: e.g. https://www.zachleat.com/
     validations:
       required: true
+  - type: checkboxes
+    id: leaderboard_excluded
+    attributes:
+      label: Exclude from Leaderboards?
+      description: This site will be left off of the leaderboards
+      options:
+        - label: Excluded
+  - type: markdown
+    attributes:
+      value: |
+        Please note that site HTML must include a `<meta name="generator" content="Eleventy">` (or at least `Eleventy` somewhere in the `content` attribute) to be eligible for the leaderboards.
   - type: input
     id: source_url
     attributes:
@@ -25,5 +36,21 @@ body:
       label: Authors (GitHub usernames)
       description: Leave this empty if you are the only author. If this has a value, make sure to include yourself in the list (if applicable!)
       placeholder: e.g. @zachleat, @pdehaan
+    validations:
+      required: false
+  - type: input
+    id: business_url
+    attributes:
+      label: Super Professional Business Network CTA URL
+      description: Open Collective Members can be featured on the [Eleventy Super Professional Business Network](https://www.11ty.dev/super-professional-business-network/)
+      placeholder: e.g. https://www.zachleat.com/
+    validations:
+      required: false
+  - type: input
+    id: business_name
+    attributes:
+      label: Super Professional Business Network Company Name
+      description: The company name used on the [Eleventy Super Professional Business Network](https://www.11ty.dev/super-professional-business-network/)
+      placeholder: e.g. Zach’s Web Design Emporium
     validations:
       required: false

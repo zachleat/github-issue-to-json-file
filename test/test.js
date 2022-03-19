@@ -2,6 +2,7 @@ import test from "ava";
 import followRedirects from "follow-url-redirects";
 import normalizeUrl from "normalize-url";
 import { cleanupUrl } from "../cleanup-url.js";
+import { parseIssueBody } from "../parse-issue-body.js";
 
 test("Test redirect lib", async t => {
   let results = await followRedirects("http://11ty.dev", {
@@ -28,6 +29,35 @@ test("Test both together url lib", async t => {
 
 test("Test normalize empty URL", async t => {
   let normalized = await cleanupUrl("");
-
+  
   t.is(normalized, "");
+});
+
+test("Test parse body", async t => {
+  let body = `### Site URL  
+
+netlify.com
+
+### Exclude from Leaderboards?
+
+- [X] Excluded
+
+### Source code URL
+
+_No response_
+
+### Authors (GitHub usernames)
+
+_No response_
+
+### Super Professional Business Network CTA URL
+
+_No response_
+
+### Super Professional Business Network Company Name
+
+_No response_`;
+
+  let result = await parseIssueBody("./test/sample-issue-template.yml", body);
+  t.is(result.url, "https://www.netlify.com/");
 });

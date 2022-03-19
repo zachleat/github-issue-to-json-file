@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import yaml from "js-yaml";
 
 import { cleanupUrl } from "./cleanup-url.js";
+import { cleanupUsernames } from "./cleanup-usernames.js";
 
 function removeNewLines(str) {
   return str.replace(/[\r\n]*/g, "");
@@ -27,7 +28,7 @@ export async function parseIssueBody(githubIssueTemplateFile, body) {
     return entry === "_No response_" ? "" : entry;
   });
 
-  console.log( { fields, bodyData } );
+  // console.log( { fields, bodyData } );
 
   let returnObject = {};
   for(let j = 0, k = bodyData.length; j<k; j++) {
@@ -39,11 +40,7 @@ export async function parseIssueBody(githubIssueTemplateFile, body) {
     // Clean up GitHub usernames
     let fieldLabel = fields[j] && fields[j].attributes && fields[j].attributes.label;
     if(fieldLabel && (fieldLabel.toLowerCase().endsWith("(github usernames)") || fieldLabel.toLowerCase().endsWith("(twitter usernames)"))) {
-      entry = entry.split(" ").map(name => {
-        return removeNewLines(name).trim().replace(/\,/g, "");
-      }).filter(name => !!name).map(name => {
-        return name.startsWith("@") ? name.substring(1) : name;
-      });
+      entry = cleanupUsernames(removeNewLines(entry));
     }
 
     if(fieldLabel && fieldLabel.toLowerCase() === "url" || fields[j].id === "url" || fields[j].id.endsWith("_url") || fields[j].id.startsWith("url_")) {

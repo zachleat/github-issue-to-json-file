@@ -2,6 +2,7 @@ import test from "ava";
 import followRedirects from "follow-url-redirects";
 import normalizeUrl from "normalize-url";
 import { cleanupUrl } from "../cleanup-url.js";
+import { cleanupUsernames } from "../cleanup-usernames.js";
 import { parseIssueBody } from "../parse-issue-body.js";
 
 test("Test redirect lib", async t => {
@@ -60,4 +61,15 @@ _No response_`;
 
   let result = await parseIssueBody("./test/sample-issue-template.yml", body);
   t.is(result.url, "https://www.netlify.com/");
+});
+
+test("Cleanup usernames", async t => {
+  t.deepEqual(cleanupUsernames(""), []);
+  t.deepEqual(cleanupUsernames("zachleat"), ["zachleat"]);
+  t.deepEqual(cleanupUsernames("@zachleat"), ["zachleat"]);
+  t.deepEqual(cleanupUsernames("@zachleat, @pdehaan"), ["zachleat", "pdehaan"]);
+  t.deepEqual(cleanupUsernames("@zachleat @pdehaan"), ["zachleat", "pdehaan"]);
+  t.deepEqual(cleanupUsernames("zachleat @pdehaan"), ["zachleat", "pdehaan"]);
+  t.deepEqual(cleanupUsernames("zachleat pdehaan"), ["zachleat", "pdehaan"]);
+  t.deepEqual(cleanupUsernames("zachleat, pdehaan"), ["zachleat", "pdehaan"]);
 });

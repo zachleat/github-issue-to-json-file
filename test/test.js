@@ -73,3 +73,12 @@ test("Cleanup usernames", async t => {
   t.deepEqual(cleanupUsernames("zachleat pdehaan"), ["zachleat", "pdehaan"]);
   t.deepEqual(cleanupUsernames("zachleat, pdehaan"), ["zachleat", "pdehaan"]);
 });
+
+test("Cleanup usernames with prefix", async t => {
+  t.deepEqual(cleanupUsernames("", "github:"), []);
+  t.deepEqual(cleanupUsernames("", "twitter:"), []);
+  t.deepEqual(cleanupUsernames("zachleat", "github:"), ["github:zachleat"]);
+  t.deepEqual(cleanupUsernames("@zachleat", "github:"), ["github:zachleat"]);
+  t.deepEqual(cleanupUsernames("zachleat", "twitter:"), ["twitter:zachleat"]);
+  t.deepEqual(cleanupUsernames("@zachleat", "twitter:"), ["twitter:zachleat"]);
+});

@@ -37,13 +37,17 @@ export async function parseIssueBody(githubIssueTemplateFile, body) {
     }
 
     let entry = bodyData[j];
-    // Clean up GitHub usernames
-    let fieldLabel = fields[j] && fields[j].attributes && fields[j].attributes.label;
-    if(fieldLabel && (fieldLabel.toLowerCase().endsWith("(github usernames)") || fieldLabel.toLowerCase().endsWith("(twitter usernames)"))) {
+    let attributes = fields[j] && fields[j].attributes || {};
+    // let fieldLabel = attributes.label || "";
+    let fieldDescription =  attributes.description || "";
+
+    // Clean up GitHub or Twitter usernames (strip out commas, convert to array, remove @ prefixes)
+    if(fieldDescription.includes("[parser:usernames]")) {
       entry = cleanupUsernames(removeNewLines(entry));
     }
 
-    if(fieldLabel && fieldLabel.toLowerCase() === "url" || fields[j].id === "url" || fields[j].id.endsWith("_url") || fields[j].id.startsWith("url_")) {
+    // Normalize urls (add protocol, follow redirects)
+    if(fieldDescription.includes("[parser:url]")) {
       entry = removeNewLines(entry);
       console.log( "About to cleanup URL: ", { entry } );
       entry = await cleanupUrl(entry);

@@ -5,7 +5,12 @@
 * Sample [`.github/ISSUE_TEMPLATE/built-with-eleventy.yml` on the `11ty-community` Repo](https://github.com/11ty/11ty-community/blob/main/.github/ISSUE_TEMPLATE/built-with-eleventy.yml)
 * [Live Demo](https://github.com/11ty/11ty-community/issues/new?assignees=&labels=built-with-eleventy&template=built-with-eleventy.yml&title=%5BBuilt+with+Eleventy%5D+I+built+something%21)
 
-Note this template creates new issues with the `built-with-eleventy` label. This will be used later.
+1. Use `labels: built-with-eleventy` with a label name of your choosing. This will be used later.
+2. You can control how these fields are parsed and normalized in the `body->attributes.description` field. Right now we provide:
+  * `[parser:url]` to normalize URL inputs (adds the protocol, follow redirects to find final URL). Uses [`normalize-url`](https://www.npmjs.com/package/normalize-url) and [`follow-url-redirects`](https://www.npmjs.com/package/follow-url-redirects).
+  * `[parser:usernames]` runs on a String of whitespace separated usernames (removing commas, `@` characters from the beginning) and returns an Array.
+3. Other:
+  * A single checkbox is converted to a Boolean value.
 
 ## Step 2: Add the GitHub Actions Workflow file
 
@@ -60,9 +65,19 @@ jobs:
         uses: peter-evans/close-issue@v1
         with:
           issue-number: "${{ env.IssueNumber }}"
-          comment: "Added data file for #${{ env.IssueNumber }}"
+          comment: "Thank you! Your data file has been added!"
 ```
 
 ## Step 3: There is no step 3
 
 Modified graciously from @katydecorah’s https://github.com/katydecorah/wordle-to-yaml-action
+
+## Roadmap:
+
+* Add `allow-overwrites` input, e.g.
+
+```
+  allow-overwrites:
+    description: Whether or not a file can overwrite an existing file
+    default: true
+```

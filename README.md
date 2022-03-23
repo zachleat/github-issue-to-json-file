@@ -72,7 +72,7 @@ jobs:
 
 Modified graciously from @katydecorah’s https://github.com/katydecorah/wordle-to-yaml-action
 
-## Roadmap:
+## Future Ideas Roadmap:
 
 * Add `allow-overwrites` input, e.g.
 

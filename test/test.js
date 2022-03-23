@@ -49,7 +49,7 @@ _No response_
 
 ### Authors (GitHub usernames)
 
-_No response_
+@zachleat,    pdehaan
 
 ### Super Professional Business Network CTA URL
 
@@ -61,6 +61,8 @@ _No response_`;
 
   let result = await parseIssueBody("./test/sample-issue-template.yml", body);
   t.is(result.url, "https://www.netlify.com/");
+  t.is(result.leaderboard_excluded, true);
+  t.deepEqual(result.authors, ["zachleat", "pdehaan"]);
 });
 
 test("Cleanup usernames", async t => {

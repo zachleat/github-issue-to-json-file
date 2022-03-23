@@ -7,10 +7,10 @@
 
 1. Use `labels: built-with-eleventy` with a label name of your choosing. This will be used later.
 2. You can control how these fields are parsed and normalized in the `body->attributes.description` field. Right now we provide:
-  * `[parser:url]` to normalize URL inputs (adds the protocol, follow redirects to find final URL). Uses [`normalize-url`](https://www.npmjs.com/package/normalize-url) and [`follow-url-redirects`](https://www.npmjs.com/package/follow-url-redirects).
-  * `[parser:usernames]` runs on a String of whitespace separated usernames (removing commas, `@` characters from the beginning) and returns an Array.
+    * `[parser:url]` to normalize URL inputs (adds the protocol, follow redirects to find final URL). Uses [`normalize-url`](https://www.npmjs.com/package/normalize-url) and [`follow-url-redirects`](https://www.npmjs.com/package/follow-url-redirects).
+    * `[parser:usernames]` runs on a String of whitespace separated usernames (removing commas, `@` characters from the beginning) and returns an Array.
 3. Other:
-  * A single checkbox is converted to a Boolean value.
+    * A single checkbox is converted to a Boolean value.
 
 ## Step 2: Add the GitHub Actions Workflow file
 

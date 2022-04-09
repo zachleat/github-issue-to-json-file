@@ -84,3 +84,9 @@ test("Cleanup usernames with prefix", async t => {
   t.deepEqual(cleanupUsernames("zachleat", "twitter:"), ["twitter:zachleat"]);
   t.deepEqual(cleanupUsernames("@zachleat", "twitter:"), ["twitter:zachleat"]);
 });
+
+test("https://github.com/11ty/11ty-community/issues/72", async t => {
+  let normalized = await cleanupUrl("https://www.scottmurphytennis.net/");
+
+  t.is(normalized, "https://www.scottmurphytennis.net/");
+});

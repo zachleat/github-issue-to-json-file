@@ -12,5 +12,5 @@ inputs:
     description: The YAML file for the GitHub issue form template
     required: true
   hash-property-name:
-    description: The object property to use to generate the has for the file name.
+    description: The object property to use to generate the hash for the file name.
     required: true

@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 function base64ToBase64Url(hashString = "") {
 	return hashString.replace(/[=\+\/]/g, function(match) {
 		if(match === "=") {

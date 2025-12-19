@@ -1,20 +1,22 @@
 {
   "name": "@zachleat/issue-to-json",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": " Convert a well formed GitHub Issue Form populated Markdown body into a JSON data file in the repository.",
   "type": "module",
   "main": "issue-to-json.js",
   "scripts": {
-    "test": "npm install ava && npx ava && npm uninstall ava"
+    "test": "npx ava"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.6.0",
-    "@actions/github": "^5.0.0",
-    "follow-url-redirects": "^1.1.0",
-    "js-yaml": "^4.1.0",
-    "normalize-url": "^7.0.3"
+    "@actions/core": "^2.0.1",
+    "@actions/github": "^6.0.1",
+    "js-yaml": "^4.1.1",
+    "normalize-url": "^8.1.0"
+  },
+  "devDependencies": {
+    "ava": "^6.4.1"
   }
 }

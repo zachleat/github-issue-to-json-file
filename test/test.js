@@ -1,18 +1,8 @@
 import test from "ava";
-import followRedirects from "follow-url-redirects";
 import normalizeUrl from "normalize-url";
 import { cleanupUrl } from "../cleanup-url.js";
 import { cleanupUsernames } from "../cleanup-usernames.js";
 import { parseIssueBody } from "../parse-issue-body.js";
-
-test("Test redirect lib", async t => {
-  let results = await followRedirects("http://11ty.dev", {
-    timeout: 5000,
-    maxRedirects: 5,
-  });
-
-  t.is(results.pop().url, "https://www.11ty.dev/");
-});
 
 test("Test normalize url lib", async t => {
   let normalized = normalizeUrl("11ty.dev", {
@@ -89,4 +79,38 @@ test("https://github.com/11ty/11ty-community/issues/72", async t => {
   let normalized = await cleanupUrl("https://www.scottmurphytennis.net/");
 
   t.is(normalized, "https://www.scottmurphytennis.net/");
+});
+test("cleanup http://11ty.io/", async t => {
+  let normalized = await cleanupUrl("http://11ty.io/");
+
+  t.is(normalized, "https://www.11ty.dev/");
+});
+test("cleanup https://11ty.io/", async t => {
+  let normalized = await cleanupUrl("https://11ty.io/");
+
+  t.is(normalized, "https://www.11ty.dev/");
+});
+
+test("cleanup https://www.11ty.io/", async t => {
+  let normalized = await cleanupUrl("https://www.11ty.io/");
+
+  t.is(normalized, "https://www.11ty.dev/");
+});
+
+test("cleanup http://11ty.dev/", async t => {
+  let normalized = await cleanupUrl("http://11ty.dev/");
+
+  t.is(normalized, "https://www.11ty.dev/");
+});
+
+test("Cleanup https://11ty.dev", async t => {
+  let normalized = await cleanupUrl("https://11ty.dev/");
+
+  t.is(normalized, "https://www.11ty.dev/");
+});
+
+test("Cleanup https://www.11ty.dev", async t => {
+  let normalized = await cleanupUrl("https://www.11ty.dev/");
+
+  t.is(normalized, "https://www.11ty.dev/");
 });

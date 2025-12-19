@@ -6,12 +6,10 @@ import { getInput, exportVariable, setFailed } from "@actions/core";
 import * as github from "@actions/github";
 
 import { parseIssueBody } from "./parse-issue-body.js";
+import { getBase64UrlHash } from "./hash.js";
 
 function getFileName(url) {
-  let hash = createHash("sha256");
-  hash.update(url);
-
-  return hash.digest("base64url").substr(0, 10) + ".json";
+  return getBase64UrlHash(url).slice(0, 10) + ".json";
 }
 
 export async function issueToJson() {

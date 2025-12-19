@@ -1,5 +1,12 @@
 import normalizeUrl from "normalize-url";
-import followRedirects from "follow-url-redirects";
+
+async function followRedirects(url) {
+  let response = await fetch(url, {
+    // 5 second timeout
+    signal: AbortSignal.timeout(5000),
+  });
+  return response.url;
+}
 
 export async function cleanupUrl(url) {
   if(!url || !(url || "").trim()) {
@@ -17,12 +24,7 @@ export async function cleanupUrl(url) {
     });
   }
 
-  let urls = await followRedirects(normalized, {
-    timeout: 5000,
-    maxRedirects: 5,
-  });
+  let u = await followRedirects(normalized);
 
-  // console.log( {normalized, urls} );
-
-  return (urls.pop()).url;
+  return u;
 }

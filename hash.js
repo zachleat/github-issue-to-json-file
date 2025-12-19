@@ -14,7 +14,7 @@ function base64ToBase64Url(hashString = "") {
 
 export function getBase64UrlHash(content) {
   let hash = createHash("sha256");
-  hash.update(url);
+  hash.update(content);
 
   return base64ToBase64Url(hash.digest("base64"));
 }

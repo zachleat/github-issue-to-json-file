@@ -3,6 +3,7 @@ import normalizeUrl from "normalize-url";
 import { cleanupUrl } from "../cleanup-url.js";
 import { cleanupUsernames } from "../cleanup-usernames.js";
 import { parseIssueBody } from "../parse-issue-body.js";
+import { getBase64UrlHash } from "../hash.js"
 
 test("Test normalize url lib", async t => {
   let normalized = normalizeUrl("11ty.dev", {
@@ -113,4 +114,10 @@ test("Cleanup https://www.11ty.dev", async t => {
   let normalized = await cleanupUrl("https://www.11ty.dev/");
 
   t.is(normalized, "https://www.11ty.dev/");
+});
+
+test("Hash https://www.11ty.dev", async t => {
+  let hash = await getBase64UrlHash("https://www.11ty.dev/");
+
+  t.is(hash, "dLN_2kDPpBgm65oDwHsCdWRq13kvdhBpKi746DKKr6o");
 });

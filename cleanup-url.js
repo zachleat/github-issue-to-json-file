@@ -3,7 +3,7 @@ import normalizeUrl from "normalize-url";
 async function followRedirects(url) {
   let response = await fetch(url, {
     // 5 second timeout
-    signal: AbortSignal.timeout(5000),
+    signal: AbortSignal.timeout(15000),
   });
   return response.url;
 }
